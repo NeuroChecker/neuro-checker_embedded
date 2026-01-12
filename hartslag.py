@@ -1,7 +1,7 @@
 from machine import ADC
 import utime
 
-# Pin ... as analog input
+# Pin 0 as analog input
 analog_pin = ADC(0)
 
 # Initialization variables
@@ -9,7 +9,7 @@ raq_value = 0
 max_value = 0
 is_peak = False
 
-#function for detecting a heartbeat
+# Function for detecting a heartbeat
 
 def heartbeat(ir_sensor_pin, delay_msec):
     global raw_value, max_value, is_peak
@@ -58,3 +58,4 @@ while True:
         
     utime.sleep_ms(delay_msec)
     beat_msec += delay_msec
+
