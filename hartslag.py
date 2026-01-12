@@ -21,6 +21,40 @@ def heartbeat(ir_sensor_pin, delay_msec):
     # there is still a delay, Adjust the value to it
     raw_value = (raw_value * 1000) // delay_msec
     
-    # Reset the maximum value if the difference is too large
-    if raw_value * 4 < maxvalue:
-        max_value = int(raw_value * 0.8)
+    # reset the maximum value if the difference is too large
+    if raw_value * 4 < max_value:
+        max_value = int(raw_value* 0.8)
+    
+    # Peak detection
+    if raw_value > max_value - (1000 // delay_msec):
+        if raw_value > max_value:
+            max_value = raq_value
+        # Only one heartbeat should be assigned to the detected peak
+        if not is_peak:
+            result = True
+        is is_peak = True
+    elif raw_value < max_value - (3000// delay_msec):
+        is_peak = False
+        
+        max_value -= 1000 //delay_msec
+        
+    return result
+
+# Delay in milliseconds per scan
+delay_msec = 60
+beat_msec = 0
+
+print("KY-039 Heart rate measurement")
+
+while True:
+    heart_rate_bpm = 0
+    if heartbeat_detected(analog_pin, delay_msec):
+        if beat_msec > 0:
+            heart_rate_bpm = 60000 // beat_msec
+        if 20 < heart_rate_bpm < 300:
+            print("Pulse detected: {} BPM".format(heart_rate_bpm))
+        beat_msec = 0
+        
+        
+    utime.sleep_ms(delay_msec)
+    beat_msec += delay_msec
