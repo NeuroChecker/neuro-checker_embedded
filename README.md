@@ -1,36 +1,43 @@
 # neuro-checker_embedded
 
-## De handleiding voor ESP32-C3 supper mini
+## Guide for the ESP32-C3 Super Mini
 
-### inleiding
-Dit is echt bedoelt voor als je een esp32-c3 hebt waar het niet goed lukt om het aan te sluiten. Ik heb hier zelf namelijk problemen mee gehad, en hierdoor heb ik het weten te omzeilen.
+### Introduction
+This guide is meant for anyone having trouble setting up their ESP32-C3. I ran into the same issues myself and found a way to work around them.
 
-Stap 1
-Download python 3 en voer dan deze command uit:
+### Step 1
+Download Python 3 and run the following command:
 
-```pip install esptool```
+```bash
+pip install esptool
+```
 
-Check of het gelukt is doormiddel van ```esptool.py --version```
+Check if it installed correctly by running:  
+```bash
+esptool.py --version
+```
 
-Stap 2
-Zorg dat als je de ESP32-C3 aansluit met ubs-c je ook de bootknop ingedruikt houd voor ongeveer 5 seconden.
+### Step 2
+When connecting your ESP32-C3 via USB-C, make sure to hold down the **BOOT** button for about 5 seconds.
 
-Ga naar de terminal op je apperaat, en typ dit in:
+Next, open your device’s terminal and type:
 
-```esptool.py erase_flash```
+```bash
+esptool.py erase_flash
+```
 
-Nu heb je jouw ESP32-C3 geflashed en kan je er een programma naar keuze op zetten.
-Zelf kies ik nu voor micro-python. ga naar de website hieronder en download micropython.
+Your ESP32-C3 is now flashed and ready for any firmware you’d like to install.  
+In this example, we’ll use **MicroPython**. Go to the official MicroPython website and download the correct version for your ESP32 board.
 
-Na het downloaden van micropython kun je het op je ESP-32 zetten.
+After downloading the MicroPython binary file, upload it to your ESP32 with:
 
-```esptool.py --port PORTNAME --baud 460800 write_flash 0 ESP32_BOARD_NAME-DATE-VERSION.bin```
+```bash
+esptool.py --port PORTNAME --baud 460800 write_flash 0 ESP32_BOARD_NAME-DATE-VERSION.bin
+```
 
-Nu staat er als het gelukt is micropython op je ESP32-C3 supper mini.
+If the process completes successfully, your ESP32-C3 Super Mini now runs MicroPython.
 
--------
-Als de laatste commando niet gelukt is kan het zijn dat het bestand anders is, voer de code opnieuw in, maar laat het stukje van ESP32 tot aan .bin weg en druk twee keer op tap om het juiste .bin bestand te gebruiken.
+***
 
+If the last command fails, the filename might differ from the example. Run the command again, but leave everything from `ESP32` up to `.bin` blank, then press **Tab** twice to auto-complete and select the correct `.bin` file.
 
-
- 
