@@ -2,7 +2,7 @@ from machine import ADC
 import utime
 
 class HeartbeatSensor:
-    def __init__(self, analog_pin, delay_msec):
+    def __init__(self, analog_pin):
         self.adc = ADC(analog_pin)
         self.delay_msec = 60 # delay in milliseconds per scan
         self.raw_value = 0
@@ -44,13 +44,13 @@ class HeartbeatSensor:
         value = self._read_heartbeat()
         self.raw_value = value
         
-        beat_detected = self._update_peak_detection(value)
+        beat_detected = self._peak_detection(value)
         
         if beat_detected:
             if self.beat_msec > 0:
                 bpm = 60000 // self.beat_msec
                 #if its normal range of heartbeat i can use it
-                if 15 < bpm > 250:
+                if 20 < bpm < 220:
                     heart_rate_bpm = bpm
             # reset distance till next beat
             self.beat_msec = 0
@@ -63,4 +63,6 @@ class HeartbeatSensor:
             "raw": self.raw_value,
             "max_value": self.max_value,
             }
+    def sleep_until_next(self):
+        utime.sleep_ms(self.delay_msec)
 

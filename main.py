@@ -25,18 +25,19 @@ def init_heartbeat():
         log(0, "Heartbeat sensor initialised", component="heartbeat")
         return hb
     except Exception as e:
+        log(2, "Sensor Error", component="heartbeat")
         return None
 
 # main function
 def main():
-    log(0, "System startup")
+    log(0, "System startup", component="main")
     # checking for faults
     hb = init_heartbeat()
     if hb is None:
         log(2, "Aborting: heartbeat not available", component="main")
         return
 
-    log(0, "Entering main loops of components")
+    log(0, "Entering main loops of components", component="main")
     # The working loop
     while True:
         data_hb = hb.update()
@@ -47,8 +48,12 @@ def main():
                 component="heartbeat",
                 extra={"raw": data_hb["raw"], "max": data_hb["max_value"]},
             )
-        sleep(2)
+        hb.sleep_until_next()
 
 # main function used
 if __name__ == "__main__":
     main()
+
+
+
+
